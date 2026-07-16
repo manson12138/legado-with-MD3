@@ -2,6 +2,32 @@
 
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
+## Flutter Subproject Instructions
+
+When a task touches `flutter_app/` or `docs/flutter-rewrite/`, Codex must completely read
+`docs/flutter-rewrite/FLUTTER_REWRITE_EXECUTION_PLAN.md` first, then use
+`docs/flutter-rewrite/AI_PROJECT_INDEX.md` to locate the relevant Flutter implementation,
+Android reference files, phase records, known blockers, and additional required documents.
+
+For Flutter rewrite tasks:
+
+- Treat `docs/flutter-rewrite/AI_PROJECT_INDEX.md` as a navigation index, not as a replacement for
+  the current user request, this file, source facts, phase gates, or acceptance evidence.
+- Also read `docs/flutter-rewrite/steps/MIGRATION_STEPS_INDEX.md` and the target phase document
+  before implementing phase work.
+- Do not run Flutter/Dart/Gradle/Xcode builds, tests, analysis, lint, formatting checks, or app
+  startup; the user runs verification.
+- Keep the original Android implementation read-only unless the user explicitly asks to modify it.
+- Re-evaluate the AI index when stable routes, layers, gateways, database schema, platform bridges,
+  supported formats, or phase gates change.
+- Whenever Codex creates a new hand-written file under `flutter_app/` or
+  `docs/flutter-rewrite/`, update the relevant section of
+  `docs/flutter-rewrite/AI_PROJECT_INDEX.md` in the same task so the new file can be found by its
+  responsibility, feature, route, call chain, platform boundary, or phase. A one-row-per-file list
+  is not required when the existing feature entry already provides a clearer index.
+- Generated files and build outputs are excluded from the index and must not be treated as project
+  implementation sources.
+
 ## Coding Guidelines
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
