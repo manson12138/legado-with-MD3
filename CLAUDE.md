@@ -375,6 +375,27 @@ Book sources, RSS sources, and HTTP TTS use JavaScript rules. `initRhino()` in `
 - APK is split by ABI (`armeabi-v7a`, `arm64-v8a`, plus universal)
 - Firebase Analytics and Performance are included; `google-services` plugin applied
 
+## Flutter Database Schema Changes
+
+The Flutter rewrite (`flutter_app/`) has its own independent SQLite database
+(`flutter_app/lib/src/data/local/legado_database.dart`), separate from the Android Room database.
+
+Whenever a change touches persisted data in `flutter_app/` (new/changed/removed table columns, new
+tables, changed constraints — typically anything under `flutter_app/lib/src/domain/model/` that
+maps to a DB row), you must:
+
+1. Check whether `LegadoDatabase.schemaVersion` needs to increase. If the new/changed field must
+   exist in the SQLite schema (not just an in-memory default), bump `schemaVersion`, add the column
+   to the relevant `CREATE TABLE` (the base schema built in `onCreate`) for fresh installs, and add
+   a matching `ALTER TABLE` under a new `if (oldVersion < N)` branch in `onUpgrade` for existing
+   installs.
+2. If `schemaVersion` was bumped, also bump `flutter_app/pubspec.yaml`'s `version:` build number
+   (the integer after `+`) in the same change, so a schema-changing build is always distinguishable
+   by its app version. Bump the semantic version part too if the change is user-facing.
+
+Read `docs/flutter-rewrite/AI_PROJECT_INDEX.md` before any `flutter_app/` change for the full set of
+Flutter-specific rules and current architecture facts.
+
 ## Web Frontend
 
 Located in `modules/web/` — a Vue 3 + TypeScript + Vite project for remote bookshelf and source editing. Must connect to the app's built-in HTTP server (started via `WebService` in the main activity settings). Commands:

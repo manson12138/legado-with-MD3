@@ -20,6 +20,13 @@ For Flutter rewrite tasks:
 - Keep the original Android implementation read-only unless the user explicitly asks to modify it.
 - Re-evaluate the AI index when stable routes, layers, gateways, database schema, platform bridges,
   supported formats, or phase gates change.
+- Whenever a change touches persisted data in `flutter_app/` (new/changed/removed table columns,
+  new tables, changed constraints), check whether `LegadoDatabase.schemaVersion`
+  (`flutter_app/lib/src/data/local/legado_database.dart`) needs to increase — add the column to the
+  base `CREATE TABLE` for fresh installs and a matching `ALTER TABLE` under a new
+  `if (oldVersion < N)` branch in `onUpgrade` for existing installs. If `schemaVersion` was bumped,
+  also bump `flutter_app/pubspec.yaml`'s `version:` build number (the integer after `+`) in the same
+  change, so a schema-changing build is always distinguishable by its app version.
 - Whenever Codex creates a new hand-written file under `flutter_app/` or
   `docs/flutter-rewrite/`, update the relevant section of
   `docs/flutter-rewrite/AI_PROJECT_INDEX.md` in the same task so the new file can be found by its
