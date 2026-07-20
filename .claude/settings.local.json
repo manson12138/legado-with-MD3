@@ -117,7 +117,12 @@
       "Bash(git revert *)",
       "Bash(xargs grep -l \"ImeLazyListAutoScroller\")",
       "Bash(xargs grep -l \"MarkdownBlock\")",
-      "Bash(./gradlew.bat assembleAppDebug)"
+      "Bash(./gradlew.bat assembleAppDebug)",
+      "Bash(xargs wc -l)",
+      "Bash(find . -type d -not -path '*/\\\\.*' -not -path '*/build/*')",
+      "Bash(fvm --version)",
+      "Bash(git push *)",
+      "Bash(echo \"exit=$?\")"
     ]
   }
 }
